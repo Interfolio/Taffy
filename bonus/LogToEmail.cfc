@@ -31,6 +31,8 @@ Exception Timestamp: <cfoutput>#dateformat(now(), 'yyyy-mm-dd')# #timeformat(now
 					<h2>Exception Report</h2>
 					<p><strong>Exception Timestamp:</strong> <cfoutput>#dateformat(now(), 'yyyy-mm-dd')# #timeformat(now(), 'HH:MM:SS tt')#</cfoutput></p>
 					<cfdump var="#arguments.exception#" />
+					<cfdump var="#url#" />
+					<cfdump var="#form#" />
 				</cfif>
 		</cfmail>
 	</cffunction>
