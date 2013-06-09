@@ -16,10 +16,12 @@
 			TODO: This adapter does not currently support authentication-required email, supplying a specific server, etc.
 			That would be a great and relatively easy thing for you to contribute back! :)
 		--->
+		<cfset var pid = structKeyExists(cookie,"pid") ? cookie.pid : 0 />
+		<cfset var detail = structKeyExists(exception,"cause") && structKeyExists(exception.cause,"detail") ? exception.cause.detail : "" />
 		<cfmail
 			from="#variables.emailFrom#"
 			to="#variables.emailTo#"
-			subject="#variables.emailSubj#"
+			subject="#variables.emailSubj#-#pid#"
 			type="#variables.emailType#">
 				<cfif variables.emailType eq "text">
 Exception Report
@@ -29,10 +31,12 @@ Exception Timestamp: <cfoutput>#dateformat(now(), 'yyyy-mm-dd')# #timeformat(now
 <cfdump var="#arguments.exception#" format="text" />
 				<cfelse>
 					<h2>Exception Report</h2>
-					<p><strong>Exception Timestamp:</strong> <cfoutput>#dateformat(now(), 'yyyy-mm-dd')# #timeformat(now(), 'HH:MM:SS tt')#</cfoutput></p>
+					<cfdump var="#detail#" />
+					<cfdump var="#cgi.path_info#" />
 					<cfdump var="#arguments.exception#" />
 					<cfdump var="#url#" />
 					<cfdump var="#form#" />
+					<cfdump var="#cookie#" />
 				</cfif>
 		</cfmail>
 	</cffunction>
