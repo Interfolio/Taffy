@@ -18,10 +18,11 @@
 		--->
 		<cfset var pid = structKeyExists(cookie,"pid") ? cookie.pid : 0 />
 		<cfset var detail = structKeyExists(exception,"cause") && structKeyExists(exception.cause,"detail") ? exception.cause.detail : "" />
+		<cfset var the_host = CreateObject("java", "java.net.InetAddress").getlocalhost().gethostname() />
 		<cfmail
 			from="#variables.emailFrom#"
 			to="#variables.emailTo#"
-			subject="#variables.emailSubj#-#pid#"
+			subject="#the_host#: #variables.emailSubj#-#pid#"
 			type="#variables.emailType#">
 				<cfif variables.emailType eq "text">
 Exception Report
@@ -30,7 +31,6 @@ Exception Timestamp: <cfoutput>#dateformat(now(), 'yyyy-mm-dd')# #timeformat(now
 
 <cfdump var="#arguments.exception#" format="text" />
 				<cfelse>
-					<h2>Exception Report</h2>
 					<cfdump var="#detail#" />
 					<cfdump var="#cgi.path_info#" />
 					<cfdump var="#arguments.exception#" />
